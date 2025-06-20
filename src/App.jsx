@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { FaPause, FaPlay, FaArrowUp, FaHeart } from "react-icons/fa";
+import { FaPause, FaMusic, FaArrowUp, FaHeart } from "react-icons/fa";
 import "./index.css";
 import bgImage from "./assets/background.jpg";
 import Image1 from "./assets/anh1.jpg";
@@ -20,7 +20,6 @@ function App() {
 
   useEffect(() => {
     const audio = audioRef.current;
-    audio.play();
     audio.loop = true;
 
     const handleScroll = () => {
@@ -87,11 +86,14 @@ function App() {
 
   const toggleMusic = () => {
     const audio = audioRef.current;
-    if (playing) audio.pause();
-    else audio.play();
+    if (!playing) {
+      audio.muted = false;
+      audio.play();
+    } else {
+      audio.pause();
+    }
     setPlaying(!playing);
   };
-
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
@@ -100,17 +102,17 @@ function App() {
 
       <button
         onClick={toggleMusic}
-        className="fixed top-1/3 left-4 z-50 p-3 rounded-full 
-             bg-white bg-opacity-80 border border-pink-200 
-             shadow-md hover:scale-110 transition 
-             backdrop-blur-sm"
+        className={`fixed top-1/3 left-4 z-50 p-3 rounded-full bg-white shadow-lg 
+              border border-pink-200 backdrop-blur-sm transition-all 
+              ${playing ? "" : "animate-pulse"} hover:scale-110`}
       >
         {playing ? (
-          <FaPause className="text-pink-400" />
+          <FaPause className="text-pink-500 text-l" />
         ) : (
-          <FaPlay className="text-pink-400" />
+          <FaMusic className="text-pink-500 text-l animate-bounce-slow" />
         )}
       </button>
+
       {/* Header - Hồng Sơn & Thu Thảo */}
       <div className="py-10 px-4 flex flex-col items-center text-black relative">
         {/* Heart particles - tuỳ chọn */}
